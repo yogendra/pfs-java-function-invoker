@@ -93,8 +93,8 @@ If your function can't be automatically detected then you need to provide a hand
 The simplest form of the handler is a bean name or a class name that can be instantiated (with a default constructor).
 More complex creation scenarios can be handled by giving the handler in the form `<bean>[&main=<main>]` where
 
-* `<bean>` is a class name or bean name, and
-* `<main` is a Spring `@Configuration` class to create an application context
+- `<bean>` is a class name or bean name, and
+- `<main>` is a Spring `@Configuration` class to create an application context
 
 If you provide a `main` parameter you need to include Spring Boot and all the other dependencies of the context in your archive.
 A Spring Boot jar file does not need an explicit `main` (there is one in the `MANIFEST.MF`), but if you supply one it will be used.
@@ -148,10 +148,11 @@ To build the `uppercase` sample Boot app that is using a function bean, use:
 ```sh
 riff function create uppercase --handler uppercase --local-path . --image dev.local/uppercase:v1
 ```
+
 > NOTE: If your Spring Boot application contains a single function bean, then you can omit the `--handler` flag since the invoker is able to automatically detect it. You can also omit the `--handler` flag if the JAR manifest has a `Function-Class` entry.
 
 > NOTE: You need to provide a tag for the image to avoid Kubernetes trying to download the latest version of the image.
-The default pull policy is `IfNotPresent` which means that Kubernetes will always attempt to pull the latest image from the registry unless there is a tag specified.
+> The default pull policy is `IfNotPresent` which means that Kubernetes will always attempt to pull the latest image from the registry unless there is a tag specified.
 
 Once the function is up and running you can invoke it using:
 
@@ -217,9 +218,9 @@ The invoker is a [Spring Boot](https://projects.spring.io/spring-boot) applicati
 Because of the way Spring Boot works you can use an environment variable `FUNCTION_URI` or a System property `function.uri` or a command line argument `--function.uri` (amongst other options).
 Its value points to a classpath archive, which can be a jar file or a directory, together with parameters:
 
-* `handler`: the class name of a `Function` to execute, or a bean name of a `Function`. Can also be a comma, or pipe-separated list of functions, which are composed together at runtime.
+- `handler`: the class name of a `Function` to execute, or a bean name of a `Function`. Can also be a comma, or pipe-separated list of functions, which are composed together at runtime.
 
-* `main`: (optional) the class name of a Spring `@Configuration` that can be used to create a Spring application context, in which the `handler` is defined.
+- `main`: (optional) the class name of a Spring `@Configuration` that can be used to create a Spring application context, in which the `handler` is defined.
 
 The jar archive can also be a comma-separated list of archive locations, in case you need to compose things together.
 
@@ -227,25 +228,25 @@ The jar archive can also be a comma-separated list of archive locations, in case
 
 Examples:
 
-* A jar file
+- A jar file
 
 ```
 file:target/app.jar?handler=functions.Greeter
 ```
 
-* A Spring app (with `spring-cloud-function-context`) and function specified by bean class
+- A Spring app (with `spring-cloud-function-context`) and function specified by bean class
 
 ```
 file:target/app.jar?handler=functions.Greeter&main=functions.Application
 ```
 
-* A Spring app and function specified by bean name
+- A Spring app and function specified by bean name
 
 ```
 file:target/app.jar?handler=greeter&main=functions.Application
 ```
 
-* A Spring app split between 2 jar files
+- A Spring app split between 2 jar files
 
 ```
 file:target/app.jar,file:target/lib.jar?handler=greeter&main=functions.Application
